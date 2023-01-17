@@ -4,6 +4,7 @@ var cors = require("cors");
 const app = express();
 
 const multer = require("multer");
+const { stdout } = require("process");
 
 // setup multer for file upload
 var storage1 = multer.diskStorage({
@@ -28,47 +29,9 @@ app.use(express.json());
 app.use(express.static(__dirname + "/../build"));
 
 var whitelist = ["http://localhost:3000"]; //white list consumers
-/* var corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS"],
-  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-  credentials: true, //Credentials are cookies, authorization headers or TLS client certificates.
-  allowedHeaders: [
-    "Content-Type",
-    "Authorization",
-    "X-Requested-With",
-    "device-remember-token",
-    "Access-Control-Allow-Origin",
-    "Origin",
-    "Accept",
-  ],
-};
-
-app.use(cors(corsOptions)); */
-/* const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin || whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true,
-};
-app.use(cors(corsOptions)); */
 app.use(
   cors({
     origin: function (origin, callback) {
-      // allow requests with no origin
-
-      // (like mobile apps or curl requests)
-
       if (!origin) return callback(null, true);
 
       if (whitelist.indexOf(origin) === -1) {
@@ -81,12 +44,6 @@ app.use(
     },
   })
 );
-
-/* app.all("/*", function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  next();
-}); */
 
 app.post("/api/uploadfile1", upload1.single("myFile1"), (req, res, next) => {
   console.log(req.file.originalname + " file 1  successfully uploaded !!");
@@ -102,9 +59,10 @@ app.get("/api/test", (req, res, next) => {
   res.sendStatus(200);
 });
 app.get("/api/compare", (req, res, next) => {
-  //console.log(req.file.originalname + " file successfully uploaded !!");
+  console.log(" Comparing ....");
+  // const childProcess = exec(Exec_Command, function (err, stdout, stderr) {
   const childProcess = exec(
-    'java -jar  C:\\Users\\janani.a.sridharOneDrive - Accenture\\PDFCompare\\react-file-uplaod-main\\react-file-uplaod-main\\java\\pdfCompare.jar  "Jar is invoked by Node js"',
+    "java -jar pdfCompare.jar",
     function (err, stdout, stderr) {
       console.log("inside the jar file");
       if (err) {
@@ -114,26 +72,9 @@ app.get("/api/compare", (req, res, next) => {
     }
   );
   res.send("hii");
+  //res.send(stdout);
   res.sendStatus(200);
 });
-
-/* app.post(
-  "/api/uploadfile",
-  upload.single("myFile"),
-  createProxyMiddleware({
-    target: "http://localhost:3000/", //original url
-
-    changeOrigin: true,
-
-    onProxyRes: function (proxyRes, req, res) {
-      proxyRes.headers["Access-Control-Allow-Origin"] = "*";
-
-      console.log(req.file.originalname + " file successfully uploaded !!");
-
-      proxyRes.sendStatus(200);
-    },
-  })
-); */
 
 //app.listen(8080, () => console.log("Listening on port 8080"));
 app.listen(process.env.PORT || 8080, () =>

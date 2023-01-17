@@ -48,7 +48,12 @@ class Uploadfile extends Component {
           <Form.Group className="mb-3" controlId="formFileUpload1">
             <InputGroup>
               {/* <Form.Label>Upload Document 1</Form.Label> */}
-              <Form.Control type="file" size="sm" placeholder="Select file" />
+              <Form.Control
+                type="file"
+                size="sm"
+                placeholder="Select file"
+                onChange={this.onFileChange1}
+              />
 
               <Button variant="primary" size="sm" onClick={this.onFileUpload1}>
                 Upload Doc1
@@ -59,7 +64,12 @@ class Uploadfile extends Component {
           <Form.Group className="mb-3" controlId="formFileUpload2">
             <InputGroup>
               {/* <Form.Label>Upload Document 2</Form.Label> */}
-              <Form.Control type="file" size="sm" placeholder="Select file" />
+              <Form.Control
+                type="file"
+                size="sm"
+                placeholder="Select file"
+                onChange={this.onFileChange2}
+              />
 
               <Button variant="primary" size="sm" onClick={this.onFileUpload2}>
                 Upload Doc2
