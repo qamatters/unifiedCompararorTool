@@ -5,6 +5,7 @@ const app = express();
 
 const multer = require("multer");
 const { stdout } = require("process");
+const { listFilesSync } = require("list-files-in-dir");
 
 // setup multer for file upload
 var storage1 = multer.diskStorage({
@@ -53,11 +54,16 @@ app.post("/api/uploadfile2", upload2.single("myFile2"), (req, res, next) => {
   console.log(req.file.originalname + " file 2 successfully uploaded !!");
   res.sendStatus(200);
 });
-app.get("/api/test", (req, res, next) => {
-  //console.log(req.file.originalname + " file successfully uploaded !!");
-  res.send("hii");
-  res.sendStatus(200);
+app.get("/api/listfiles", (req, res, next) => {
+  console.log("inside the listfiles");
+  listFilesSync("./java/files/Stage").then((files) => {
+    // do what ever you want with the file paths
+    console.log("testing files", files);
+    res.send(files);
+    res.sendStatus(200);
+  });
 });
+
 app.get("/api/compare", (req, res, next) => {
   console.log(" Comparing ....");
   // const childProcess = exec(Exec_Command, function (err, stdout, stderr) {
@@ -71,7 +77,7 @@ app.get("/api/compare", (req, res, next) => {
       console.log(stdout);
     }
   );
-  res.send("hii");
+  // res.send("hii");
   //res.send(stdout);
   res.sendStatus(200);
 });

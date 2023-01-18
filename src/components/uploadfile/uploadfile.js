@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import InputGroup from "react-bootstrap/InputGroup";
 import axios from "axios";
+
 class Uploadfile extends Component {
   state = {
     selectedFile1: null,
@@ -19,7 +20,18 @@ class Uploadfile extends Component {
     formData.append("myFile1", this.state.selectedFile1);
 
     console.log(this.state.selectedFile1);
-    axios.post("http://localhost:8080/api/uploadfile1", formData);
+    axios
+      .post("http://localhost:8080/api/uploadfile1", formData)
+      .then((response) => {
+        console.log("File 1 uploaded");
+
+        console.log(response.data);
+        setStageFiles(response.data);
+      })
+      .catch((err) => {
+        // Handle error
+        console.log(err);
+      });
   };
   onFileChange2 = (event) => {
     this.setState({ selectedFile2: event.target.files[0] });
@@ -30,13 +42,30 @@ class Uploadfile extends Component {
     formData.append("myFile2", this.state.selectedFile2);
 
     console.log(this.state.selectedFile2);
-    axios.post("http://localhost:8080/api/uploadfile2", formData);
+    axios
+      .post("http://localhost:8080/api/uploadfile2", formData)
+      .then((response) => {
+        console.log("File 2 uploaded");
+
+        console.log(response.data);
+        setStageFiles(response.data);
+      })
+      .catch((err) => {
+        // Handle error
+        console.log(err);
+      });
   };
 
   generateCompareFile = () => {
-    axios.get("http://localhost:8080/api/compare").then((response) => {
-      console.log(response.data);
-    });
+    axios
+      .get("http://localhost:8080/api/compare")
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((err) => {
+        // Handle error
+        console.log(err);
+      });
   };
   render() {
     return (
