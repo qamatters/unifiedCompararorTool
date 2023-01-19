@@ -54,7 +54,7 @@ class Uploadfile extends Component {
       });
   };
 
-  generateCompareFile = () => {
+  /* generateCompareFile = () => {
     axios
       .get("http://localhost:8080/api/compare")
       .then((response) => {
@@ -64,7 +64,7 @@ class Uploadfile extends Component {
         // Handle error
         console.log(err);
       });
-  };
+  }; */
   render() {
     return (
       <div className={styles.Uploadfile} data-testid="Uploadfile">
@@ -103,7 +103,7 @@ class Uploadfile extends Component {
               </Button>
             </InputGroup>
           </Form.Group>
-          <Form.Group className="mb-3" controlId="compare">
+          {/* <Form.Group className="mb-3" controlId="compare">
             <Button
               variant="primary"
               size="sm"
@@ -112,7 +112,7 @@ class Uploadfile extends Component {
             >
               Compare
             </Button>
-          </Form.Group>
+          </Form.Group> */}
         </Form>
       </div>
     );
