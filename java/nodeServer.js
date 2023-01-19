@@ -5,19 +5,22 @@ const app = express();
 
 const multer = require("multer");
 const { stdout } = require("process");
-const { listFilesSync } = require("list-files-in-dir");
+
+var fs = require("fs");
+
+var path = require("path");
 
 // setup multer for file upload
 var storage1 = multer.diskStorage({
   //destination: "./build/STAGE",
-  destination: "./java/files/Stage",
+  destination: "./files/Stage",
   filename: function (req, file, cb) {
     cb(null, file.originalname);
   },
 });
 var storage2 = multer.diskStorage({
   //destination: "./build/PROD",
-  destination: "./java/files/Prod",
+  destination: "./files/Prod",
   filename: function (req, file, cb) {
     cb(null, file.originalname);
   },
@@ -54,19 +57,41 @@ app.post("/api/uploadfile2", upload2.single("myFile2"), (req, res, next) => {
   console.log(req.file.originalname + " file 2 successfully uploaded !!");
   res.sendStatus(200);
 });
+
 app.get("/api/listfiles", (req, res, next) => {
   console.log("inside the listfiles");
-  listFilesSync("./java/files/Stage").then((files) => {
-    // do what ever you want with the file paths
-    console.log("testing files", files);
-    res.send(files);
-    res.sendStatus(200);
-  });
+
+  try {
+    let dirents = fs.readdirSync("./files/Stage/", { withFileTypes: true });
+    let stagefilenames = dirents
+      .filter((dirent) => dirent.isFile())
+      .map((dirent) => dirent.name);
+    console.log("new files stage", stagefilenames);
+    let dirents1 = fs.readdirSync("./files/Prod/", { withFileTypes: true });
+    let prodfilenames = dirents1
+      .filter((dirent) => dirent.isFile())
+      .map((dirent) => dirent.name);
+    console.log("new files prod", prodfilenames);
+    let dirents2 = fs.readdirSync("./files/Summary/", { withFileTypes: true });
+    let summaryfilenames = dirents2
+      .filter((dirent) => dirent.isFile())
+      .map((dirent) => dirent.name);
+    console.log("new files summaryfilenames", summaryfilenames);
+
+    res.status(200).json({
+      stagefilenames: stagefilenames,
+      prodfilenames: prodfilenames,
+      summaryfilenames: summaryfilenames,
+    });
+  } catch (error) {
+    console.log(error);
+    res.send(error);
+  }
 });
 
 app.get("/api/compare", (req, res, next) => {
   console.log(" Comparing ....");
-  // const childProcess = exec(Exec_Command, function (err, stdout, stderr) {
+
   const childProcess = exec(
     "java -jar pdfCompare.jar",
     function (err, stdout, stderr) {
@@ -77,12 +102,10 @@ app.get("/api/compare", (req, res, next) => {
       console.log(stdout);
     }
   );
-  // res.send("hii");
-  //res.send(stdout);
+
   res.sendStatus(200);
 });
 
-//app.listen(8080, () => console.log("Listening on port 8080"));
 app.listen(process.env.PORT || 8080, () =>
   console.log("Listening on port 8080", process.env.PORT || 8080)
 );

@@ -26,7 +26,6 @@ class Uploadfile extends Component {
         console.log("File 1 uploaded");
 
         console.log(response.data);
-        setStageFiles(response.data);
       })
       .catch((err) => {
         // Handle error
@@ -48,7 +47,6 @@ class Uploadfile extends Component {
         console.log("File 2 uploaded");
 
         console.log(response.data);
-        setStageFiles(response.data);
       })
       .catch((err) => {
         // Handle error
