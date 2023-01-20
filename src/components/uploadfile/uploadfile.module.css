@@ -3,3 +3,11 @@
   height: 50%;
   text-align: center;
 }
+.imgicon {
+  width: 30px;
+  height: 29px;
+
+  position: absolute;
+
+  float: right;
+}

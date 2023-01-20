@@ -99,11 +99,16 @@ app.get("/api/compare", (req, res, next) => {
       if (err) {
         console.log(err);
       }
-      console.log(stdout);
+      //console.log(stdout);
+      const smartcontract = stdout.toString().substring(30, 72);
+      console.log(smartcontract);
+      console.log("stdout ===", stdout);
+      //res.send(smartcontract);
+      if (stdout != null) {
+        res.sendStatus(200);
+      }
     }
   );
-
-  res.sendStatus(200);
 });
 
 app.listen(process.env.PORT || 8080, () =>

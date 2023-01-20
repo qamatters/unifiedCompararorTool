@@ -3,29 +3,19 @@
   width: 100%;
   display: table;
   border-spacing: 10px;
+  font-size: 14px;
 }
 
-.stBox {
+.divTable {
   background-color: #ff505361;
   width: 32.03125%;
   float: none;
   display: table-cell;
   border-radius: 5px;
+  max-height: 300px;
+  scroll-behavior: auto;
 }
-.ndBox {
-  background-color: #ff505361;
-  width: 32.03125%;
-  float: none;
-  display: table-cell;
-  border-radius: 5px;
-}
-.rdBox {
-  background-color: #ff505361;
-  width: 32.03125%;
-  float: none;
-  display: table-cell;
-  border-radius: 5px;
-}
+
 thead {
   font-weight: 500;
   font-size: 20px;

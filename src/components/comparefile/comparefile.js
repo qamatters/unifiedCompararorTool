@@ -8,6 +8,7 @@ import axios from "axios";
 
 function Comparefile() {
   function generateCompareFile() {
+    console.log("compare axios call");
     axios
       .get("http://localhost:8080/api/compare")
       .then((response) => {
@@ -18,6 +19,7 @@ function Comparefile() {
         console.log(err);
       });
   }
+  //React.useEffect(() => generateCompareFile(), []);
   return (
     <>
       <div className={styles.Comparefile} data-testid="Comparefile">

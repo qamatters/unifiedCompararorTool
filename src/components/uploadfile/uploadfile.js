@@ -1,11 +1,162 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import styles from "./uploadfile.module.css";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import InputGroup from "react-bootstrap/InputGroup";
 import axios from "axios";
+import LoadingSpinner from "../loading-spinner/loading-spinner";
+import success from "../../images/success.png";
+const Uploadfile = () => {
+  const [selectedFile1, setSelectedFile1] = useState(null);
+  const [selectedFile2, setSelectedFile2] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [showalert1, setShowalert1] = useState(false);
+  const [showalert2, setShowalert2] = useState(false);
+  const onFileChange1 = (event) => {
+    //this.setState({ selectedFile1: event.target.files[0] });
+    setSelectedFile1(event.target.files[0]);
+  };
 
-class Uploadfile extends Component {
+  const onFileUpload1 = () => {
+    const formData = new FormData();
+    formData.append("myFile1", selectedFile1);
+
+    // console.log(this.state.selectedFile1);
+    axios
+      .post("http://localhost:8080/api/uploadfile1", formData)
+      .then((response) => {
+        console.log("File 1 uploaded");
+        setShowalert1(true);
+
+        console.log(response.data);
+      })
+      .catch((err) => {
+        // Handle error
+        console.log(err);
+      });
+  };
+  const onFileChange2 = (event) => {
+    //this.setState({ selectedFile2: event.target.files[0] });
+    setSelectedFile2(event.target.files[0]);
+  };
+
+  const onFileUpload2 = () => {
+    const formData = new FormData();
+    formData.append("myFile2", selectedFile2);
+
+    //console.log(this.state.selectedFile2);
+    axios
+      .post("http://localhost:8080/api/uploadfile2", formData)
+      .then((response) => {
+        console.log("File 2 uploaded");
+        setShowalert2(true);
+        console.log(response.data);
+      })
+      .catch((err) => {
+        // Handle error
+        console.log(err);
+      });
+  };
+
+  const generateCompareFile = () => {
+    console.log("compare call");
+    setLoading(true);
+    axios
+      .get("http://localhost:8080/api/compare")
+      .then((response) => {
+        console.log(response.data);
+
+        setLoading(false);
+      })
+      .catch((err) => {
+        // Handle error
+        console.log(err);
+        setLoading(false);
+      });
+  };
+  return (
+    <>
+      <div className={styles.Uploadfile} data-testid="Uploadfile">
+        <Form>
+          <Form.Text className="text-muted" size="sm">
+            Select File to be uploaded
+          </Form.Text>
+          <Form.Group className="mb-3" controlId="formFileUpload1">
+            <InputGroup>
+              {/* <Form.Label>Upload Document 1</Form.Label> */}
+              <Form.Control
+                type="file"
+                size="sm"
+                placeholder="Select file"
+                onChange={(event) => onFileChange1(event)}
+              />
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={() => onFileUpload1()}
+              >
+                Upload Doc1
+              </Button>
+              {showalert1 ? (
+                <p>
+                  <img
+                    src={success}
+                    className={styles.imgicon}
+                    alt="pdffile"
+                  ></img>
+                </p>
+              ) : null}
+            </InputGroup>
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="formFileUpload2">
+            <InputGroup>
+              {/* <Form.Label>Upload Document 2</Form.Label> */}
+              <Form.Control
+                type="file"
+                size="sm"
+                placeholder="Select file"
+                onChange={(event) => onFileChange2(event)}
+              />
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={() => onFileUpload2()}
+              >
+                Upload Doc2
+              </Button>
+              {showalert2 ? (
+                <p>
+                  <img
+                    src={success}
+                    className={styles.imgicon}
+                    alt="pdffile"
+                  ></img>
+                </p>
+              ) : null}
+            </InputGroup>
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="compare">
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={() => generateCompareFile()}
+            >
+              Compare
+            </Button>
+          </Form.Group>
+        </Form>
+      </div>
+      {loading ? (
+        <LoadingSpinner />
+      ) : (
+        <h6>List of files is shown in View files tab .</h6>
+      )}
+    </>
+  );
+};
+/* class Uploadfile extends Component {
   state = {
     selectedFile1: null,
     selectedFile2: null,
@@ -54,17 +205,18 @@ class Uploadfile extends Component {
       });
   };
 
-  /* generateCompareFile = () => {
+  generateCompareFile = () => {
+    console.log("compare call");
     axios
       .get("http://localhost:8080/api/compare")
       .then((response) => {
         console.log(response.data);
       })
       .catch((err) => {
-        // Handle error
+       
         console.log(err);
       });
-  }; */
+  };
   render() {
     return (
       <div className={styles.Uploadfile} data-testid="Uploadfile">
@@ -74,7 +226,7 @@ class Uploadfile extends Component {
           </Form.Text>
           <Form.Group className="mb-3" controlId="formFileUpload1">
             <InputGroup>
-              {/* <Form.Label>Upload Document 1</Form.Label> */}
+             
               <Form.Control
                 type="file"
                 size="sm"
@@ -90,7 +242,7 @@ class Uploadfile extends Component {
 
           <Form.Group className="mb-3" controlId="formFileUpload2">
             <InputGroup>
-              {/* <Form.Label>Upload Document 2</Form.Label> */}
+            
               <Form.Control
                 type="file"
                 size="sm"
@@ -103,20 +255,19 @@ class Uploadfile extends Component {
               </Button>
             </InputGroup>
           </Form.Group>
-          {/* <Form.Group className="mb-3" controlId="compare">
+          <Form.Group className="mb-3" controlId="compare">
             <Button
               variant="primary"
               size="sm"
               onClick={this.generateCompareFile}
-              type="submit"
             >
               Compare
             </Button>
-          </Form.Group> */}
+          </Form.Group>
         </Form>
       </div>
     );
   }
-}
+} */
 
 export default Uploadfile;
