@@ -9,14 +9,14 @@ import checkdif from "../../images/DiffImage.gif";
 
 import success from "../../images/success.png";
 import checkcorrect from "../../images/checkcorrect.gif";
-import readfile from "../../images/readfile.gif";
+//import readfile from "../../images/readfile.gif";
 import docscan from "../../images/docscan.gif";
 import Carousel from "react-bootstrap/Carousel";
 
 const Uploadfile = () => {
   const [selectedFile1, setSelectedFile1] = useState(null);
   const [selectedFile2, setSelectedFile2] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [showsuccess, setShowSuccess] = useState(false);
   const [showalert1, setShowalert1] = useState(false);
   const [showalert2, setShowalert2] = useState(false);
