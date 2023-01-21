@@ -2,6 +2,8 @@
   width: 50%;
   height: 50%;
   text-align: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 .imgicon {
   width: 30px;
@@ -10,4 +12,18 @@
   position: absolute;
 
   float: right;
+}
+.loadingicon {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 25%;
+  height: 25%;
+}
+.carouselstyles {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  height: 50%;
 }

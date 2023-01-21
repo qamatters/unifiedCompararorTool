@@ -4,10 +4,12 @@ import styles from "./listfiles.module.css";
 import axios from "axios";
 import Table from "react-bootstrap/Table";
 import pdf from "../../images/pdfdownload.png";
+import folderfile from "../../images/folderfile.gif";
+
 //import Pdfviewer from "../pdfviewer/pdfviewer";
 //import { Button } from "react-bootstrap";
 
-function Listfiles() {
+function Listfiles(props) {
   const [stageFilenames, setStageFilenames] = useState([]);
   const [prodfilenames, setProdfilenames] = useState([]);
   const [summaryfilenames, setSummaryfilenames] = useState([]);
@@ -40,16 +42,47 @@ function Listfiles() {
         console.log(err);
       });
   }
+  /* const getData = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/api/listfiles");
+      setStageFilenames(response.data.stagefilenames);
+      setProdfilenames(response.data.prodfilenames);
+      setSummaryfilenames(response.data.summaryfilenames);
+    } catch (e) {
+      console.log(e);
+    }
+  }; */
+
+  /*  useEffect(() => {
+    const intervalCall = setInterval(() => {
+      getData();
+    }, 1000);
+    return () => {
+      // clean up
+      clearInterval(intervalCall);
+    };
+  }, []); */
   useEffect(() => listFileIndir(), []);
   if (stageFilenames.length > 0) {
     return (
       <>
+        <header>
+          <h1>List of files</h1>
+        </header>
+
         <div className={styles.Listfiles} data-testid="Listfiles">
           <div className={styles.divTable} id="stBox">
             <Table size="sm" responsive>
               <thead>
                 <tr>
-                  <th>Stage Folder Files</th>
+                  <th>
+                    <img
+                      src={folderfile}
+                      className={styles.imgicon}
+                      alt="folderfile"
+                    ></img>
+                    STAGE
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -67,6 +100,7 @@ function Listfiles() {
                           src={pdf}
                           className={styles.imgicon}
                           alt="pdffile"
+                          aria-disabled="true"
                         ></img>
                         {/* </a> */}
                       </td>
@@ -80,7 +114,14 @@ function Listfiles() {
             <Table size="sm" responsive>
               <thead>
                 <tr>
-                  <th>Prod Folder Files</th>
+                  <th>
+                    <img
+                      src={folderfile}
+                      className={styles.imgicon}
+                      alt="folderfile"
+                    ></img>
+                    PROD
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -105,7 +146,14 @@ function Listfiles() {
             <Table size="sm" responsive>
               <thead>
                 <tr>
-                  <th>Summary Folder Files</th>
+                  <th>
+                    <img
+                      src={folderfile}
+                      className={styles.imgicon}
+                      alt="folderfile"
+                    ></img>
+                    SUMMARY
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -127,11 +175,12 @@ function Listfiles() {
             </Table>
           </div>
         </div>
-        <div>
-          {/* {file} && <Pdfviewer file={file}></Pdfviewer> */}
-          {/* <Pdfviewer file={file}></Pdfviewer> */}
-          {/* <Pdfviewer file="../../java/files/prod/sample.pdf"></Pdfviewer> */}
-        </div>
+
+        {/* <div> */}
+        {/* {file} && <Pdfviewer file={file}></Pdfviewer> */}
+        {/* <Pdfviewer file={file}></Pdfviewer> */}
+        {/* <Pdfviewer file="../../java/files/prod/sample.pdf"></Pdfviewer> */}
+        {/* </div> */}
       </>
     );
   } else {

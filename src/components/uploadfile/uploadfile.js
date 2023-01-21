@@ -4,12 +4,20 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import InputGroup from "react-bootstrap/InputGroup";
 import axios from "axios";
-import LoadingSpinner from "../loading-spinner/loading-spinner";
+//import LoadingSpinner from "../loading-spinner/loading-spinner";
+import checkdif from "../../images/DiffImage.gif";
+
 import success from "../../images/success.png";
+import checkcorrect from "../../images/checkcorrect.gif";
+import readfile from "../../images/readfile.gif";
+import docscan from "../../images/docscan.gif";
+import Carousel from "react-bootstrap/Carousel";
+
 const Uploadfile = () => {
   const [selectedFile1, setSelectedFile1] = useState(null);
   const [selectedFile2, setSelectedFile2] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [showsuccess, setShowSuccess] = useState(false);
   const [showalert1, setShowalert1] = useState(false);
   const [showalert2, setShowalert2] = useState(false);
   const onFileChange1 = (event) => {
@@ -67,6 +75,7 @@ const Uploadfile = () => {
         console.log(response.data);
 
         setLoading(false);
+        setShowSuccess(true);
       })
       .catch((err) => {
         // Handle error
@@ -74,6 +83,7 @@ const Uploadfile = () => {
         setLoading(false);
       });
   };
+
   return (
     <>
       <div className={styles.Uploadfile} data-testid="Uploadfile">
@@ -148,11 +158,53 @@ const Uploadfile = () => {
           </Form.Group>
         </Form>
       </div>
-      {loading ? (
+      {/* {loading ? (
         <LoadingSpinner />
       ) : (
         <h6>List of files is shown in View files tab .</h6>
-      )}
+      )} */}
+      {/* <img
+            src={checkdif}
+            className={styles.loadingicon}
+            alt="pdfloading"
+          ></img> */}
+      {loading ? (
+        <div className={styles.carouselstyles}>
+          <Carousel>
+            <Carousel.Item interval={1000}>
+              <img
+                // className="d-block w-100"
+                src={checkdif}
+                alt="First slide"
+                className={styles.loadingicon}
+              />
+            </Carousel.Item>
+            {/*  <Carousel.Item interval={500}>
+              <img
+                // className="d-block w-100"
+                src={readfile}
+                alt="Second slide"
+                className={styles.loadingicon}
+              />
+            </Carousel.Item> */}
+            <Carousel.Item interval={500}>
+              <img
+                // className="d-block w-100"
+                src={docscan}
+                alt="Second slide"
+                className={styles.loadingicon}
+              />
+            </Carousel.Item>
+          </Carousel>
+        </div>
+      ) : null}
+      {showsuccess ? (
+        <img
+          src={checkcorrect}
+          className={styles.loadingicon}
+          alt="success"
+        ></img>
+      ) : null}
     </>
   );
 };
