@@ -12,6 +12,7 @@ import checkcorrect from "../../images/checkcorrect.gif";
 //import readfile from "../../images/readfile.gif";
 import docscan from "../../images/docscan.gif";
 import Carousel from "react-bootstrap/Carousel";
+import Multiplefileupload from "../multiplefileupload/multiplefileupload";
 
 const Uploadfile = () => {
   const [selectedFile1, setSelectedFile1] = useState(null);
@@ -20,6 +21,41 @@ const Uploadfile = () => {
   const [showsuccess, setShowSuccess] = useState(false);
   const [showalert1, setShowalert1] = useState(false);
   const [showalert2, setShowalert2] = useState(false);
+  const [files, setFiles] = useState([]);
+  const onChange = (e) => {
+    console.log(e.target.files);
+    setFiles(e.target.files);
+  };
+  const onSubmit = async (e, path) => {
+    e.preventDefault();
+    console.log("path====", path);
+    const formData = new FormData();
+    // formData.append("destinationpath", "Prod");
+    Object.values(files).forEach((file) => {
+      formData.append("uploadImages", file);
+    });
+
+    try {
+      const res = await axios.post(
+        "http://localhost:8080/api/upload?id=" + path,
+        formData,
+
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log(res);
+    } catch (err) {
+      if (err.response.status === 500) {
+        console.log(err);
+      } else {
+        console.log(err.response.data.msg);
+      }
+    }
+  };
+
   const onFileChange1 = (event) => {
     //this.setState({ selectedFile1: event.target.files[0] });
     setSelectedFile1(event.target.files[0]);
@@ -87,7 +123,7 @@ const Uploadfile = () => {
   return (
     <>
       <div className={styles.Uploadfile} data-testid="Uploadfile">
-        <Form>
+        <Form onSubmit={(event) => onSubmit(event, "Stage")}>
           <Form.Text className="text-muted" size="sm">
             Select File to be uploaded
           </Form.Text>
@@ -98,12 +134,14 @@ const Uploadfile = () => {
                 type="file"
                 size="sm"
                 placeholder="Select file"
-                onChange={(event) => onFileChange1(event)}
+                multiple
+                onChange={onChange}
               />
               <Button
                 variant="primary"
                 size="sm"
-                onClick={() => onFileUpload1()}
+                type="submit"
+                // onClick={() => onFileUpload1()}
               >
                 Upload Doc1
               </Button>
@@ -112,13 +150,14 @@ const Uploadfile = () => {
                   <img
                     src={success}
                     className={styles.imgicon}
-                    alt="pdffile"
+                    alt="success"
                   ></img>
                 </p>
               ) : null}
             </InputGroup>
           </Form.Group>
-
+        </Form>
+        <Form onSubmit={(event) => onSubmit(event, "Prod")}>
           <Form.Group className="mb-3" controlId="formFileUpload2">
             <InputGroup>
               {/* <Form.Label>Upload Document 2</Form.Label> */}
@@ -126,12 +165,14 @@ const Uploadfile = () => {
                 type="file"
                 size="sm"
                 placeholder="Select file"
-                onChange={(event) => onFileChange2(event)}
+                multiple
+                onChange={onChange}
               />
               <Button
                 variant="primary"
                 size="sm"
-                onClick={() => onFileUpload2()}
+                type="submit"
+                //onClick={() => onFileUpload2()}
               >
                 Upload Doc2
               </Button>

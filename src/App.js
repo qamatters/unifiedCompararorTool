@@ -5,6 +5,7 @@ import Listfiles from "./components/listfiles/listfiles";
 import Uploadfile from "./components/uploadfile/uploadfile";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
+//import Multiplefileupload from "./components/multiplefileupload/multiplefileupload";
 //import Comparefile from "./components/comparefile/comparefile";
 //class App extends Component {
 function App() {
@@ -17,6 +18,7 @@ function App() {
       <Tabs defaultActiveKey="uploadFiles" id="HomeTab" className="mb-3">
         <Tab eventKey="uploadFiles" title="Upload files">
           <Uploadfile></Uploadfile>
+          {/* <Multiplefileupload></Multiplefileupload> */}
         </Tab>
         <Tab eventKey="fileView" title="View Files">
           <Listfiles></Listfiles>

@@ -48,11 +48,28 @@ app.use(
     },
   })
 );
-
+var bodyParser = require("body-parser");
+app.use(bodyParser.json({ limit: "5mb" }));
+app.use(bodyParser.json()); // to support JSON-encoded bodies
+app.use(
+  bodyParser.urlencoded({
+    // to support URL-encoded bodies
+    extended: true,
+    limit: "5mb",
+  })
+);
 app.post("/api/uploadfile1", upload1.single("myFile1"), (req, res, next) => {
   console.log(req.file.originalname + " file 1  successfully uploaded !!");
   res.sendStatus(200);
 });
+app.post(
+  "/api/uploadProd",
+  upload1.array("uploadImagesProd", 10),
+  (req, res, next) => {
+    //console.log(req.file.originalname + " file 1  successfully uploaded !!");
+    res.sendStatus(200);
+  }
+);
 app.post("/api/uploadfile2", upload2.single("myFile2"), (req, res, next) => {
   console.log(req.file.originalname + " file 2 successfully uploaded !!");
   res.sendStatus(200);
@@ -111,6 +128,131 @@ app.get("/api/compare", (req, res, next) => {
   );
 });
 
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    console.log("storage *******req.", req.query.id);
+    var userId = req.query.id;
+
+    if (userId == "Prod") {
+      cb(null, path.join(__dirname, "./files/Prod"));
+    } else {
+      cb(null, path.join(__dirname, "./files/Stage"));
+    }
+  },
+  filename: function (req, file, cb) {
+    //console.log("storage *******", req, file, cb);
+    cb(
+      null,
+      //file.fieldname + "-" + Date.now() + file.originalname.match(/\..*$/)[0]
+      file.originalname
+    );
+  },
+});
+
+const multi_upload = multer({
+  storage,
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype == "application/pdf") {
+      console.log("multi_upload fileFilter == req.files,file", req.files, file);
+      cb(null, true);
+    } else {
+      cb(null, false);
+      const err = new Error("Only .jpg .jpeg .png images are supported!");
+      err.name = "ExtensionError";
+      return cb(err);
+    }
+  },
+}).array("uploadImages", 40);
+app.post("/api/upload", (req, res) => {
+  multi_upload(req, res, function (err) {
+    // console.log("multi_upload == res ", res);
+    //multer error
+    if (err instanceof multer.MulterError) {
+      console.log(err);
+      res
+        .status(500)
+        .send({
+          error: { msg: `multer uploading error: ${err.message}` },
+        })
+        .end();
+      return;
+    } else if (err) {
+      //unknown error
+      if (err.name == "ExtensionError") {
+        res
+          .status(413)
+          .send({ error: { msg: `${err.message}` } })
+          .end();
+      } else {
+        res
+          .status(500)
+          .send({ error: { msg: `unknown uploading error: ${err.message}` } })
+          .end();
+      }
+      return;
+    }
+    res.status(200).send("file uploaded");
+  });
+});
+
+const storage_prod = multer.diskStorage({
+  destination: function (req, file, cb) {
+    //console.log("storage *******", req, file, cb);
+    cb(null, path.join(__dirname, "./files/Prod"));
+  },
+  filename: function (req, file, cb) {
+    //console.log("storage *******", req, file, cb);
+    cb(
+      null,
+      file.fieldname + "-" + Date.now() + file.originalname.match(/\..*$/)[0]
+    );
+  },
+});
+const multi_upload_prod = multer({
+  storage_prod,
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype == "application/pdf") {
+      console.log("multi_upload fileFilter == req.files,file", req.files, file);
+      cb(null, true);
+    } else {
+      cb(null, false);
+      const err = new Error("Only .jpg .jpeg .png images are supported!");
+      err.name = "ExtensionError";
+      return cb(err);
+    }
+  },
+}).array("uploadImagesProd", 10);
+/* app.post("/api/uploadProd", (req, res) => {
+  multi_upload_prod(req, res, function (err) {
+    console.log("multi_upload == ", req.files);
+    //multer error
+    if (err instanceof multer.MulterError) {
+      console.log(err);
+      res
+        .status(500)
+        .send({
+          error: { msg: `multer uploading error: ${err.message}` },
+        })
+        .end();
+      return;
+    } else if (err) {
+      //unknown error
+      if (err.name == "ExtensionError") {
+        res
+          .status(413)
+          .send({ error: { msg: `${err.message}` } })
+          .end();
+      } else {
+        res
+          .status(500)
+          .send({ error: { msg: `unknown uploading error: ${err.message}` } })
+          .end();
+      }
+      return;
+    }
+    res.status(200).send("file uploaded");
+  });
+}); */
 app.listen(process.env.PORT || 8080, () =>
   console.log("Listening on port 8080", process.env.PORT || 8080)
 );
