@@ -20,8 +20,6 @@ import Accordion from "react-bootstrap/Accordion";
 //import Multiplefileupload from "../multiplefileupload/multiplefileupload";
 
 const Uploadfile = (props) => {
-  // const [selectedFile1, setSelectedFile1] = useState(null);
-  //const [selectedFile2, setSelectedFile2] = useState(null);
   const [loading, setLoading] = useState(false);
   const [showsuccess, setShowSuccess] = useState(false);
   const [showalert1, setShowalert1] = useState(false);
@@ -60,10 +58,19 @@ const Uploadfile = (props) => {
       props.listFileIndir();
       if (path === "Prod") {
         setShowalert2(true);
+        setTimeout(() => {
+          setShowalert2(false);
+        }, 5000);
       } else if (path === "Stage") {
         setShowalert1(true);
+        setTimeout(() => {
+          setShowalert1(false);
+        }, 5000);
       } else if (path === "IgnoredTitles") {
         setShowalert3(true);
+        setTimeout(() => {
+          setShowalert3(false);
+        }, 5000);
       }
     } catch (err) {
       if (err.response.status === 500) {
@@ -74,52 +81,6 @@ const Uploadfile = (props) => {
     }
   };
 
-  /*  const onFileChange1 = (event) => {
-    //this.setState({ selectedFile1: event.target.files[0] });
-    setSelectedFile1(event.target.files[0]);
-  };
-
-  const onFileUpload1 = () => {
-    const formData = new FormData();
-    formData.append("myFile1", selectedFile1);
-
-    // console.log(this.state.selectedFile1);
-    axios
-      .post("http://localhost:8080/api/uploadfile1", formData)
-      .then((response) => {
-        console.log("File 1 uploaded");
-        setShowalert1(true);
-
-        console.log(response.data);
-      })
-      .catch((err) => {
-        // Handle error
-        console.log(err);
-      });
-  };
-  const onFileChange2 = (event) => {
-    //this.setState({ selectedFile2: event.target.files[0] });
-    setSelectedFile2(event.target.files[0]);
-  };
-
-  const onFileUpload2 = () => {
-    const formData = new FormData();
-    formData.append("myFile2", selectedFile2);
-
-    //console.log(this.state.selectedFile2);
-    axios
-      .post("http://localhost:8080/api/uploadfile2", formData)
-      .then((response) => {
-        console.log("File 2 uploaded");
-        setShowalert2(true);
-        console.log(response.data);
-      })
-      .catch((err) => {
-        // Handle error
-        console.log(err);
-      });
-  };
- */
   const generateCompareFile = () => {
     console.log("compare call");
     setLoading(true);
@@ -130,6 +91,9 @@ const Uploadfile = (props) => {
 
         setLoading(false);
         setShowSuccess(true);
+        setTimeout(() => {
+          setShowSuccess(false);
+        }, 5000);
         props.listFileIndir();
       })
       .catch((err) => {
@@ -257,6 +221,7 @@ const Uploadfile = (props) => {
             </InputGroup>
             <Form.Text className="text-muted">
               Upload text file with Titles to be ignored.
+              <b>Note:File name should be IgnoredTitles.txt only.</b>
             </Form.Text>
           </Form.Group>
           <Form.Group className="mb-3" controlId="compare">

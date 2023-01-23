@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
-import styles from "./toastmessage.module.css";
+
 import Toast from "react-bootstrap/Toast";
-import Button from "react-bootstrap/Button";
+
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import ToastContainer from "react-bootstrap/ToastContainer";

@@ -14,7 +14,7 @@ const Informationcard = () => (
       placement="bottom"
       overlay={
         <Popover id={`popover-positioned-bottom`}>
-          <Popover.Header as="h3">Help</Popover.Header>
+          <Popover.Header as="h3">Steps to compare files</Popover.Header>
           <Popover.Body>
             <Alert key="info" variant="info">
               1. Select Files to be uploaded
@@ -23,12 +23,24 @@ const Informationcard = () => (
               <br />
               3.Click on Compare button to start the compare <br />
               4.View the resulted file- PDFCOMPARATOR/java/files/Summary folder.
+              <br />
+              <span className={styles.orclass}>OR</span>
+              <br />
+              1. Click on Compare button to compare files already present in the
+              folders.
+              <br />
+              2.View the resulted file- PDFCOMPARATOR/java/files/Summary folder.
             </Alert>
           </Popover.Body>
         </Popover>
       }
     >
-      <img src={info} className={styles.infobutton} alt="info"></img>
+      <img
+        src={info}
+        className={styles.infobutton}
+        alt="info"
+        title="Help"
+      ></img>
       {/* <Button variant="secondary">Popover on 'bottom'</Button> */}
     </OverlayTrigger>
   </div>
