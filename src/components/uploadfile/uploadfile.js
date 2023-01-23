@@ -9,17 +9,21 @@ import checkdif from "../../images/DiffImage.gif";
 
 import success from "../../images/success.png";
 import checkcorrect from "../../images/checkcorrect.gif";
+
 //import readfile from "../../images/readfile.gif";
 import docscan from "../../images/docscan.gif";
 import Carousel from "react-bootstrap/Carousel";
 import Toastmessage from "../toastmessage/toastmessage";
+import Alert from "react-bootstrap/Alert";
+import Accordion from "react-bootstrap/Accordion";
+
 //import Multiplefileupload from "../multiplefileupload/multiplefileupload";
 
 const Uploadfile = (props) => {
   // const [selectedFile1, setSelectedFile1] = useState(null);
   //const [selectedFile2, setSelectedFile2] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [showsuccess, setShowSuccess] = useState(false);
+  const [showsuccess, setShowSuccess] = useState(true);
   const [showalert1, setShowalert1] = useState(false);
   const [showalert2, setShowalert2] = useState(false);
   const [showalert3, setShowalert3] = useState(false);
@@ -139,13 +143,13 @@ const Uploadfile = (props) => {
     <>
       <div className={styles.Uploadfile} data-testid="Uploadfile">
         <Form onSubmit={(event) => onSubmit(event, "Stage")}>
-          <Form.Text className="text-muted" size="sm">
-            Select File to be uploaded
-          </Form.Text>
+          <Form.Label>
+            <strong>Stage Folder</strong>
+          </Form.Label>
           <Form.Group className="mb-3" controlId="formFileUpload1">
             <InputGroup>
               {/* <Form.Label>Upload Document 1</Form.Label> */}
-              Stage Folder :
+
               <Form.Control
                 type="file"
                 size="sm"
@@ -172,13 +176,19 @@ const Uploadfile = (props) => {
                 </p>
               ) : null}
             </InputGroup>
+            <Form.Text className="text-muted">
+              Upload pdf file to be added to Stage folder.
+            </Form.Text>
           </Form.Group>
         </Form>
         <Form onSubmit={(event) => onSubmit(event, "Prod")}>
           <Form.Group className="mb-3" controlId="formFileUpload2">
+            <Form.Label>
+              <strong>Prod Folder</strong>
+            </Form.Label>
             <InputGroup>
               {/* <Form.Label>Upload Document 2</Form.Label> */}
-              Prod Folder :
+
               <Form.Control
                 type="file"
                 size="sm"
@@ -205,13 +215,20 @@ const Uploadfile = (props) => {
                 </p>
               ) : null}
             </InputGroup>
+            <Form.Text className="text-muted">
+              Upload pdf file to be added to Prod folder.
+            </Form.Text>
           </Form.Group>
         </Form>
         <Form onSubmit={(event) => onSubmit(event, "IgnoredTitles")}>
           <Form.Group className="mb-3" controlId="formFileUpload2">
+            <Form.Label>
+              {" "}
+              <strong>Ignored Titles</strong>
+            </Form.Label>
             <InputGroup>
               {/* <Form.Label>Upload Document 2</Form.Label> */}
-              Ignored Titles :
+
               <Form.Control
                 type="file"
                 size="sm"
@@ -238,6 +255,9 @@ const Uploadfile = (props) => {
                 </p>
               ) : null}
             </InputGroup>
+            <Form.Text className="text-muted">
+              Upload text file with Titles to be ignored.
+            </Form.Text>
           </Form.Group>
           <Form.Group className="mb-3" controlId="compare">
             <Button
@@ -294,18 +314,12 @@ const Uploadfile = (props) => {
         <>
           <img
             src={checkcorrect}
-            className={styles.loadingicon}
+            className={styles.successicon}
             alt="success"
           ></img>
           <Toastmessage message={toastmessage}></Toastmessage>
         </>
       ) : null}
-
-      {props.newSummaryFile.length > 1 && showsuccess ? (
-        <span></span>
-      ) : (
-        <span></span>
-      )}
     </>
   );
 };

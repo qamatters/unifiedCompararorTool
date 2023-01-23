@@ -5,6 +5,11 @@ import Listfiles from "./components/listfiles/listfiles";
 import Uploadfile from "./components/uploadfile/uploadfile";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
+import info from "./images/info.gif";
+import Button from "react-bootstrap/Button";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Popover from "react-bootstrap/Popover";
+import Alert from "react-bootstrap/Alert";
 //import Multiplefileupload from "./components/multiplefileupload/multiplefileupload";
 //import Comparefile from "./components/comparefile/comparefile";
 //class App extends Component {
@@ -51,6 +56,30 @@ function App() {
   return (
     <>
       <h1 className="title">Pdf Comparator</h1>
+      <OverlayTrigger
+        trigger="click"
+        key="bottom"
+        placement="bottom"
+        overlay={
+          <Popover id={`popover-positioned-bottom`}>
+            <Popover.Header as="h3">Help</Popover.Header>
+            <Popover.Body>
+              <Alert key="info" variant="info">
+                1. Select Files to be uploaded
+                <br />
+                2. Click on upload doc(x) button to upload the files.
+                <br />
+                3.Click on compare button to start the compare <br />
+                4.View the resulted file- PDFCOMPARATOR/java/files/Summary
+                folder.
+              </Alert>
+            </Popover.Body>
+          </Popover>
+        }
+      >
+        <img src={info} className="infobutton" alt="info"></img>
+        {/* <Button variant="secondary">Popover on 'bottom'</Button> */}
+      </OverlayTrigger>
       {/* <div className="comparebutton">
           <Comparefile></Comparefile>
         </div> */}
