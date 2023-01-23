@@ -56,9 +56,16 @@ app.get("/api/listfiles", (req, res, next) => {
       .map((dirent) => dirent.name);
     console.log("new files prod", prodfilenames);
     let dirents2 = fs.readdirSync("./files/Summary/", { withFileTypes: true });
+    console.log("dirents2", dirents2);
     let summaryfilenames = dirents2
       .filter((dirent) => dirent.isFile())
-      .map((dirent) => dirent.name);
+      .map(
+        (dirent) => dirent.name /* {
+        const stats = fs.statSync("./files/Summary/" + dirent.name);
+        var filename = dirent.name + "-" + stats.mtime;
+        return filename;
+      } */
+      );
     console.log("new files summaryfilenames", summaryfilenames);
 
     res.status(200).json({

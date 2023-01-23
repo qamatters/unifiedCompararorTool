@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-
+//import React, { useState, useEffect } from "react";
+import React from "react";
 import styles from "./listfiles.module.css";
-import axios from "axios";
+//import axios from "axios";
 import Table from "react-bootstrap/Table";
 import pdf from "../../images/pdfdownload.png";
 import folderfile from "../../images/folderfile.gif";
@@ -10,9 +10,14 @@ import folderfile from "../../images/folderfile.gif";
 //import { Button } from "react-bootstrap";
 
 function Listfiles(props) {
-  const [stageFilenames, setStageFilenames] = useState([]);
-  const [prodfilenames, setProdfilenames] = useState([]);
-  const [summaryfilenames, setSummaryfilenames] = useState([]);
+  // const [stageFilenames, setStageFilenames] = useState([]);
+  // const [prodfilenames, setProdfilenames] = useState([]);
+  // const [summaryfilenames, setSummaryfilenames] = useState([]);
+
+  const stageFilenames = props.stageFilenames;
+  const prodfilenames = props.prodfilenames;
+  const summaryfilenames = props.summaryfilenames;
+
   //const [file, setFile] = useState(null);
 
   /* function assignFilename(filename, foldername) {
@@ -26,7 +31,7 @@ function Listfiles(props) {
       return summaryfilename;
     }
   } */
-  function listFileIndir() {
+  /* function listFileIndir() {
     axios
       .get("http://localhost:8080/api/listfiles")
       .then((response) => {
@@ -41,7 +46,7 @@ function Listfiles(props) {
         // Handle error
         console.log(err);
       });
-  }
+  } */
   /* const getData = async () => {
     try {
       const response = await axios.get("http://localhost:8080/api/listfiles");
@@ -62,14 +67,17 @@ function Listfiles(props) {
       clearInterval(intervalCall);
     };
   }, []); */
-  useEffect(() => listFileIndir(), []);
+  //useEffect(() => listFileIndir(), []);
   if (stageFilenames.length > 0) {
     return (
       <>
         <header>
           <h1>List of files</h1>
         </header>
-
+        {/* <span>
+          New files generated in summay folder are{" "}
+          {props.newSummaryFile.join(",")}
+        </span> */}
         <div className={styles.Listfiles} data-testid="Listfiles">
           <div className={styles.divTable} id="stBox">
             <Table size="sm" responsive>
@@ -185,11 +193,11 @@ function Listfiles(props) {
     );
   } else {
     return (
-      <h2>
+      <h6>
         There are no files present in the folders.
         <br />
         Please upload the files to compare.
-      </h2>
+      </h6>
     );
   }
 }

@@ -12,16 +12,21 @@ import checkcorrect from "../../images/checkcorrect.gif";
 //import readfile from "../../images/readfile.gif";
 import docscan from "../../images/docscan.gif";
 import Carousel from "react-bootstrap/Carousel";
-import Multiplefileupload from "../multiplefileupload/multiplefileupload";
+import Toastmessage from "../toastmessage/toastmessage";
+//import Multiplefileupload from "../multiplefileupload/multiplefileupload";
 
-const Uploadfile = () => {
-  const [selectedFile1, setSelectedFile1] = useState(null);
-  const [selectedFile2, setSelectedFile2] = useState(null);
+const Uploadfile = (props) => {
+  // const [selectedFile1, setSelectedFile1] = useState(null);
+  //const [selectedFile2, setSelectedFile2] = useState(null);
   const [loading, setLoading] = useState(false);
   const [showsuccess, setShowSuccess] = useState(false);
   const [showalert1, setShowalert1] = useState(false);
   const [showalert2, setShowalert2] = useState(false);
   const [files, setFiles] = useState([]);
+  let toastmessage =
+    props.newSummaryFile.length > 1
+      ? "There are new Files created in Summary folder."
+      : "There are no differences between the uploaded files";
   const onChange = (e) => {
     console.log(e.target.files);
     setFiles(e.target.files);
@@ -47,6 +52,7 @@ const Uploadfile = () => {
         }
       );
       console.log(res);
+      props.listFileIndir();
       if (path === "Prod") {
         setShowalert2(true);
       } else if (path === "Stage") {
@@ -117,6 +123,7 @@ const Uploadfile = () => {
 
         setLoading(false);
         setShowSuccess(true);
+        props.listFileIndir();
       })
       .catch((err) => {
         // Handle error
@@ -135,6 +142,7 @@ const Uploadfile = () => {
           <Form.Group className="mb-3" controlId="formFileUpload1">
             <InputGroup>
               {/* <Form.Label>Upload Document 1</Form.Label> */}
+              Stage Folder :
               <Form.Control
                 type="file"
                 size="sm"
@@ -166,6 +174,7 @@ const Uploadfile = () => {
           <Form.Group className="mb-3" controlId="formFileUpload2">
             <InputGroup>
               {/* <Form.Label>Upload Document 2</Form.Label> */}
+              Prod Folder :
               <Form.Control
                 type="file"
                 size="sm"
@@ -245,12 +254,21 @@ const Uploadfile = () => {
         </div>
       ) : null}
       {showsuccess ? (
-        <img
-          src={checkcorrect}
-          className={styles.loadingicon}
-          alt="success"
-        ></img>
+        <>
+          <img
+            src={checkcorrect}
+            className={styles.loadingicon}
+            alt="success"
+          ></img>
+          <Toastmessage message={toastmessage}></Toastmessage>
+        </>
       ) : null}
+
+      {props.newSummaryFile.length > 1 && showsuccess ? (
+        <span></span>
+      ) : (
+        <span></span>
+      )}
     </>
   );
 };
