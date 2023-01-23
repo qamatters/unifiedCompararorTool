@@ -23,7 +23,7 @@ const Uploadfile = (props) => {
   // const [selectedFile1, setSelectedFile1] = useState(null);
   //const [selectedFile2, setSelectedFile2] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [showsuccess, setShowSuccess] = useState(true);
+  const [showsuccess, setShowSuccess] = useState(false);
   const [showalert1, setShowalert1] = useState(false);
   const [showalert2, setShowalert2] = useState(false);
   const [showalert3, setShowalert3] = useState(false);
