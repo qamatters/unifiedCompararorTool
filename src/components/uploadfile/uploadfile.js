@@ -22,6 +22,7 @@ const Uploadfile = (props) => {
   const [showsuccess, setShowSuccess] = useState(false);
   const [showalert1, setShowalert1] = useState(false);
   const [showalert2, setShowalert2] = useState(false);
+  const [showalert3, setShowalert3] = useState(false);
   const [files, setFiles] = useState([]);
   let toastmessage =
     props.newSummaryFile.length > 1
@@ -57,6 +58,8 @@ const Uploadfile = (props) => {
         setShowalert2(true);
       } else if (path === "Stage") {
         setShowalert1(true);
+      } else if (path === "IgnoredTitles") {
+        setShowalert3(true);
       }
     } catch (err) {
       if (err.response.status === 500) {
@@ -148,6 +151,7 @@ const Uploadfile = (props) => {
                 size="sm"
                 placeholder="Select file"
                 multiple
+                accept=".pdf"
                 onChange={onChange}
               />
               <Button
@@ -180,6 +184,7 @@ const Uploadfile = (props) => {
                 size="sm"
                 placeholder="Select file"
                 multiple
+                accept=".pdf"
                 onChange={onChange}
               />
               <Button
@@ -201,7 +206,39 @@ const Uploadfile = (props) => {
               ) : null}
             </InputGroup>
           </Form.Group>
-
+        </Form>
+        <Form onSubmit={(event) => onSubmit(event, "IgnoredTitles")}>
+          <Form.Group className="mb-3" controlId="formFileUpload2">
+            <InputGroup>
+              {/* <Form.Label>Upload Document 2</Form.Label> */}
+              Ignored Titles :
+              <Form.Control
+                type="file"
+                size="sm"
+                placeholder="Select file"
+                multiple
+                accept=".txt"
+                onChange={onChange}
+              />
+              <Button
+                variant="primary"
+                size="sm"
+                type="submit"
+                //onClick={() => onFileUpload2()}
+              >
+                Upload Doc3
+              </Button>
+              {showalert3 ? (
+                <p>
+                  <img
+                    src={success}
+                    className={styles.imgicon}
+                    alt="pdffile"
+                  ></img>
+                </p>
+              ) : null}
+            </InputGroup>
+          </Form.Group>
           <Form.Group className="mb-3" controlId="compare">
             <Button
               variant="primary"

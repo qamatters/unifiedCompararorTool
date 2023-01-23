@@ -108,8 +108,10 @@ const storage = multer.diskStorage({
 
     if (userId == "Prod") {
       cb(null, path.join(__dirname, "./files/Prod"));
-    } else {
+    } else if (userId == "Stage") {
       cb(null, path.join(__dirname, "./files/Stage"));
+    } else {
+      cb(null, path.join(__dirname, "./files"));
     }
   },
   filename: function (req, file, cb) {
@@ -125,12 +127,12 @@ const storage = multer.diskStorage({
 const multi_upload = multer({
   storage,
   fileFilter: (req, file, cb) => {
-    if (file.mimetype == "application/pdf") {
+    if (file.mimetype == "application/pdf" || file.mimetype == "text/plain") {
       console.log("multi_upload fileFilter == req.files,file", req.files, file);
       cb(null, true);
     } else {
       cb(null, false);
-      const err = new Error("Only .jpg .jpeg .png images are supported!");
+      const err = new Error("Only .pdf/.txt docs are supported!");
       err.name = "ExtensionError";
       return cb(err);
     }
