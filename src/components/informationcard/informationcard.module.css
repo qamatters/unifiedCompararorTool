@@ -1,1 +1,6 @@
 .Informationcard {}
+.infobutton {
+  float: right;
+  margin-right: 100px;
+  height:50px;
+}
