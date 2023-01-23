@@ -19,9 +19,9 @@ const Informationcard = () => (
             <Alert key="info" variant="info">
               1. Select Files to be uploaded
               <br />
-              2. Click on upload doc(x) button to upload the files.
+              2. Click on Upload doc(x) button to upload the files.
               <br />
-              3.Click on compare button to start the compare <br />
+              3.Click on Compare button to start the compare <br />
               4.View the resulted file- PDFCOMPARATOR/java/files/Summary folder.
             </Alert>
           </Popover.Body>
