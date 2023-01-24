@@ -4,18 +4,15 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import InputGroup from "react-bootstrap/InputGroup";
 import axios from "axios";
-//import LoadingSpinner from "../loading-spinner/loading-spinner";
+
 import checkdif from "../../images/DiffImage.gif";
 
 import success from "../../images/success.png";
 import checkcorrect from "../../images/checkcorrect.gif";
 
-//import readfile from "../../images/readfile.gif";
 import docscan from "../../images/docscan.gif";
 import Carousel from "react-bootstrap/Carousel";
 import Toastmessage from "../toastmessage/toastmessage";
-import Alert from "react-bootstrap/Alert";
-import Accordion from "react-bootstrap/Accordion";
 
 //import Multiplefileupload from "../multiplefileupload/multiplefileupload";
 

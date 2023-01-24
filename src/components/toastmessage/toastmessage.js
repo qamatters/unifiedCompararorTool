@@ -16,7 +16,7 @@ function Toastmessage(props) {
           <Toast
             onClose={() => setShow(false)}
             show={show}
-            delay={10000}
+            delay={100000}
             autohide
             bg="success"
           >

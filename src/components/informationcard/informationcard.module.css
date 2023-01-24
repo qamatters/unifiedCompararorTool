@@ -9,3 +9,6 @@
 .orclass {
   text-align: center;
 }
+.folderclass {
+  cursor: pointer;
+}
