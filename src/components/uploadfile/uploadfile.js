@@ -10,7 +10,7 @@ import checkdif from "../../images/DiffImage.gif";
 import success from "../../images/success.png";
 import checkcorrect from "../../images/checkcorrect.gif";
 
-import docscan from "../../images/docscan.gif";
+import docscan1 from "../../images/docscan1.gif";
 import Carousel from "react-bootstrap/Carousel";
 import Toastmessage from "../toastmessage/toastmessage";
 
@@ -22,11 +22,14 @@ const Uploadfile = (props) => {
   const [showalert1, setShowalert1] = useState(false);
   const [showalert2, setShowalert2] = useState(false);
   const [showalert3, setShowalert3] = useState(false);
+  const [showerror, setShowerror] = useState(false);
   const [files, setFiles] = useState([]);
   let toastmessage =
     props.newSummaryFile.length > 1
-      ? "There are new Files created in Summary folder."
-      : "There are no differences between the uploaded files";
+      ? "There are new Files created in Summary folder. View the files-PDFCOMPARATOR/java/files/Summary folder."
+      : "There are no differences between the uploaded files.. View the files-PDFCOMPARATOR/java/files/Summary folder.";
+  let errormessage =
+    "Error ! Something went wrong.Please contact application admin";
   const onChange = (e) => {
     console.log(e.target.files);
     setFiles(e.target.files);
@@ -55,26 +58,26 @@ const Uploadfile = (props) => {
       props.listFileIndir();
       if (path === "Prod") {
         setShowalert2(true);
+        setShowerror(false);
         setTimeout(() => {
           setShowalert2(false);
         }, 5000);
       } else if (path === "Stage") {
         setShowalert1(true);
+        setShowerror(false);
         setTimeout(() => {
           setShowalert1(false);
         }, 5000);
       } else if (path === "IgnoredTitles") {
         setShowalert3(true);
+        setShowerror(false);
         setTimeout(() => {
           setShowalert3(false);
         }, 5000);
       }
     } catch (err) {
-      if (err.response.status === 500) {
-        console.log(err);
-      } else {
-        console.log(err.response.data.msg);
-      }
+      console.log(err);
+      setShowerror(true);
     }
   };
 
@@ -88,6 +91,7 @@ const Uploadfile = (props) => {
 
         setLoading(false);
         setShowSuccess(true);
+        setShowerror(false);
         setTimeout(() => {
           setShowSuccess(false);
         }, 5000);
@@ -97,6 +101,7 @@ const Uploadfile = (props) => {
         // Handle error
         console.log(err);
         setLoading(false);
+        setShowerror(true);
       });
   };
 
@@ -138,7 +143,7 @@ const Uploadfile = (props) => {
               ) : null}
             </InputGroup>
             <Form.Text className="text-muted">
-              Upload pdf file to be added to Stage folder.
+              <strong>Upload pdf file to be added to Stage folder.</strong>
             </Form.Text>
           </Form.Group>
         </Form>
@@ -177,7 +182,7 @@ const Uploadfile = (props) => {
               ) : null}
             </InputGroup>
             <Form.Text className="text-muted">
-              Upload pdf file to be added to Prod folder.
+              <strong>Upload pdf file to be added to Prod folder.</strong>
             </Form.Text>
           </Form.Group>
         </Form>
@@ -217,8 +222,10 @@ const Uploadfile = (props) => {
               ) : null}
             </InputGroup>
             <Form.Text className="text-muted">
-              Upload text file with Titles to be ignored.
-              <b>Note:File name should be IgnoredTitles.txt only.</b>
+              <strong>
+                Upload text file with Titles to be ignored.
+                <b>Note:File name should be IgnoredTitles.txt only.</b>
+              </strong>
             </Form.Text>
           </Form.Group>
           <Form.Group className="mb-3" controlId="compare">
@@ -253,19 +260,14 @@ const Uploadfile = (props) => {
                 className={styles.loadingicon}
               />
             </Carousel.Item>
-            {/*  <Carousel.Item interval={500}>
+
+            <Carousel.Item interval={1000}>
               <img
                 // className="d-block w-100"
-                src={readfile}
+                // src={docscan1}
+                src={checkdif}
                 alt="Second slide"
-                className={styles.loadingicon}
-              />
-            </Carousel.Item> */}
-            <Carousel.Item interval={500}>
-              <img
-                // className="d-block w-100"
-                src={docscan}
-                alt="Second slide"
+                // className={styles.loadingicon1}
                 className={styles.loadingicon}
               />
             </Carousel.Item>
@@ -282,6 +284,7 @@ const Uploadfile = (props) => {
           <Toastmessage message={toastmessage}></Toastmessage>
         </>
       ) : null}
+      {showerror ? <Toastmessage message={errormessage}></Toastmessage> : null};
     </>
   );
 };

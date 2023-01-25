@@ -8,9 +8,7 @@
 .imgicon {
   width: 30px;
   height: 29px;
-
   position: absolute;
-
   float: right;
 }
 .loadingicon {
@@ -18,7 +16,14 @@
   margin-left: auto;
   margin-right: auto;
   width: 25%;
-  height: 25%;
+  height: 20%;
+}
+.loadingicon1 {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  height: 50%;
 }
 .successicon {
   display: block;
@@ -33,5 +38,8 @@
   margin-left: auto;
   margin-right: auto;
   width: 50%;
-  height: 50%;
+  height: 100%;
+  /* height: auto; */
+}
+.Uploadfile {
 }

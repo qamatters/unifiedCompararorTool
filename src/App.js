@@ -6,7 +6,7 @@ import Uploadfile from "./components/uploadfile/uploadfile";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import Informationcard from "./components/informationcard/informationcard";
-
+import Toastmessage from "./components/toastmessage/toastmessage";
 //import Multiplefileupload from "./components/multiplefileupload/multiplefileupload";
 //import Comparefile from "./components/comparefile/comparefile";
 //class App extends Component {
@@ -15,7 +15,9 @@ function App() {
   const [prodfilenames, setProdfilenames] = useState([]);
   const [summaryfilenames, setSummaryfilenames] = useState([]);
   const [newSummaryFile, setNewSummaryFile] = useState([]);
-
+  const [showerror, setShowerror] = useState(false);
+  let errormessage =
+    "Error ! Something went wrong.Please contact application admin";
   function usePrevious(value) {
     const ref = useRef();
     useEffect(() => {
@@ -42,9 +44,11 @@ function App() {
         setStageFilenames(response.data.stagefilenames);
         setProdfilenames(response.data.prodfilenames);
         setSummaryfilenames(response.data.summaryfilenames);
+        setShowerror(false);
       })
       .catch((err) => {
         // Handle error
+        setShowerror(true);
         console.log(err);
       });
   }
@@ -53,12 +57,12 @@ function App() {
   return (
     <>
       <h1 className="title">Pdf Comparator</h1>
-     <Informationcard></Informationcard>
+      <Informationcard></Informationcard>
       {/* <div className="comparebutton">
           <Comparefile></Comparefile>
         </div> */}
-      <Tabs defaultActiveKey="uploadFiles" id="HomeTab" className="mb-3">
-        <Tab eventKey="uploadFiles" title="Upload files">
+      <Tabs defaultActiveKey="uploadFiles" id="HomeTab" className="mb-7">
+        <Tab eventKey="uploadFiles" title="Upload files" className="background">
           <Uploadfile
             listFileIndir={listFileIndir}
             newSummaryFile={newSummaryFile}
@@ -77,6 +81,7 @@ function App() {
             <Comparefile></Comparefile>
           </Tab> */}
       </Tabs>
+      {showerror ? <Toastmessage message={errormessage}></Toastmessage> : null};
     </>
   );
 }
