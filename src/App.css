@@ -1,3 +1,12 @@
+.mainbackground {
+  background-image: radial-gradient(
+    circle farthest-corner at 5.3% 17.2%,
+    rgba(255, 208, 253, 1) 0%,
+    rgba(255, 237, 216, 1) 90%
+  );
+  background-size: cover;
+  height: 100%;
+}
 .title {
   background-color: #282c34;
   min-height: 30px;
@@ -12,6 +21,9 @@
 .comparebutton {
   float: right;
   margin-right: 100px;
+}
+.tabsstyles {
+  max-height: 100%;
 }
 .background {
   /* background-image: url(./images/background.jpg); */

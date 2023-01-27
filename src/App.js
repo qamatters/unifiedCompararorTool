@@ -55,13 +55,17 @@ function App() {
 
   useEffect(() => listFileIndir(), []);
   return (
-    <>
+    <div className="mainbackground">
       <h1 className="title">Pdf Comparator</h1>
       <Informationcard></Informationcard>
       {/* <div className="comparebutton">
           <Comparefile></Comparefile>
         </div> */}
-      <Tabs defaultActiveKey="uploadFiles" id="HomeTab" className="mb-7">
+      <Tabs
+        defaultActiveKey="uploadFiles"
+        id="HomeTab"
+        className="mb-10 tabsstyles"
+      >
         <Tab eventKey="uploadFiles" title="Upload files" className="background">
           <Uploadfile
             listFileIndir={listFileIndir}
@@ -82,7 +86,7 @@ function App() {
           </Tab> */}
       </Tabs>
       {showerror ? <Toastmessage message={errormessage}></Toastmessage> : null};
-    </>
+    </div>
   );
 }
 //render() {
