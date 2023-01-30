@@ -1,13 +1,14 @@
 //import React, { useState, useEffect } from "react";
 import React from "react";
 import styles from "./listfiles.module.css";
-//import axios from "axios";
+import axios from "axios";
 import Table from "react-bootstrap/Table";
 import pdf from "../../images/pdfdownload.png";
 import folderfile from "../../images/folderfile.gif";
-
-//import Pdfviewer from "../pdfviewer/pdfviewer";
-//import { Button } from "react-bootstrap";
+import eye from "../../images/eye.jpg";
+import { saveAs } from "file-saver";
+import { Button } from "react-bootstrap";
+import Pdfviewer from "../pdfviewer/pdfviewer";
 
 function Listfiles(props) {
   // const [stageFilenames, setStageFilenames] = useState([]);
@@ -17,57 +18,44 @@ function Listfiles(props) {
   const stageFilenames = props.stageFilenames;
   const prodfilenames = props.prodfilenames;
   const summaryfilenames = props.summaryfilenames;
+  async function downloadpdf(filepath, filename) {
+    const { data } = await getTicketsPdf(filepath);
+    const blob = new Blob([data], { type: "application/pdf" });
+    saveAs(blob, filename);
+    //Build a URL from the file
+    // const fileURL = URL.createObjectURL(blob);
+    //Open the URL on new Window
+    //window.open(fileURL);
+  }
+  async function viewpdf(filepath, filename) {
+    const { data } = await getTicketsPdf(filepath);
+    const blob = new Blob([data], { type: "application/pdf" });
+    //saveAs(blob, filename);
+    //Build a URL from the file
+    const fileURL = URL.createObjectURL(blob);
+    //Open the URL on new Window
+    window.open(fileURL);
+  }
 
-  //const [file, setFile] = useState(null);
+  async function getTicketsPdf(filepath) {
+    /* return axios.get("http://localhost:8080/api/getPdf", {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      responseType: "arraybuffer",
+    }); */
+    //return axios.post("http://localhost:8080/api/getPdf?path=" + filepath, {
+    return axios.get("http://localhost:8080/api/getPdf", {
+      params: {
+        path: filepath,
+      },
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      responseType: "arraybuffer",
+    });
+  }
 
-  /* function assignFilename(filename, foldername) {
-    console.log("getfilename", filename, foldername);
-    let summaryfilename = "../../java/files/Summary/" + filename;
-    let stagefilename = "../../java/files/Stage/" + filename;
-    let prodfilename = "../../java/files/prod/" + filename;
-    console.log(summaryfilename, stagefilename, prodfilename);
-    if (foldername === "summary") {
-      //setFile(summaryfilename);
-      return summaryfilename;
-    }
-  } */
-  /* function listFileIndir() {
-    axios
-      .get("http://localhost:8080/api/listfiles")
-      .then((response) => {
-        console.log("response listfiles");
-        console.log(response.data);
-
-        setStageFilenames(response.data.stagefilenames);
-        setProdfilenames(response.data.prodfilenames);
-        setSummaryfilenames(response.data.summaryfilenames);
-      })
-      .catch((err) => {
-        // Handle error
-        console.log(err);
-      });
-  } */
-  /* const getData = async () => {
-    try {
-      const response = await axios.get("http://localhost:8080/api/listfiles");
-      setStageFilenames(response.data.stagefilenames);
-      setProdfilenames(response.data.prodfilenames);
-      setSummaryfilenames(response.data.summaryfilenames);
-    } catch (e) {
-      console.log(e);
-    }
-  }; */
-
-  /*  useEffect(() => {
-    const intervalCall = setInterval(() => {
-      getData();
-    }, 1000);
-    return () => {
-      // clean up
-      clearInterval(intervalCall);
-    };
-  }, []); */
-  //useEffect(() => listFileIndir(), []);
   if (stageFilenames.length > 0) {
     return (
       <>
@@ -98,18 +86,35 @@ function Listfiles(props) {
                   return (
                     <tr key={index}>
                       <td>{d}</td>
+                      <td></td>
                       <td>
                         {/* <a
                       href={require("../../java/files/Stage/" + d)}
                       target="_blank"
                       rel="noopener noreferrer"
                     > */}
-                        <img
-                          src={pdf}
-                          className={styles.imgicon}
-                          alt="pdffile"
-                          aria-disabled="true"
-                        ></img>
+                        <Button
+                          variant="outline-primary"
+                          onClick={() => viewpdf("Stage/" + d, d)}
+                        >
+                          <img
+                            src={eye}
+                            className={styles.imgicon}
+                            alt="pdfreadfile"
+                            aria-disabled="true"
+                          ></img>
+                        </Button>
+                        <Button
+                          variant="outline-primary"
+                          onClick={() => downloadpdf("Stage/" + d, d)}
+                        >
+                          <img
+                            src={pdf}
+                            className={styles.imgicon}
+                            alt="pdffile"
+                            aria-disabled="true"
+                          ></img>
+                        </Button>
                         {/* </a> */}
                       </td>
                     </tr>
@@ -137,12 +142,30 @@ function Listfiles(props) {
                   return (
                     <tr key={index}>
                       <td>{d}</td>
+                      <td></td>
                       <td>
-                        <img
-                          src={pdf}
-                          className={styles.imgicon}
-                          alt="pdffile"
-                        ></img>
+                        <Button
+                          variant="outline-primary"
+                          onClick={() => viewpdf("Prod/" + d, d)}
+                        >
+                          <img
+                            src={eye}
+                            className={styles.imgicon}
+                            alt="pdfreadfile"
+                            aria-disabled="true"
+                          ></img>
+                        </Button>
+                        <Button
+                          variant="outline-primary"
+                          onClick={() => downloadpdf("Prod/" + d, d)}
+                        >
+                          <img
+                            src={pdf}
+                            className={styles.imgicon}
+                            alt="pdffile"
+                            aria-disabled="true"
+                          ></img>
+                        </Button>
                       </td>
                     </tr>
                   );
@@ -169,12 +192,30 @@ function Listfiles(props) {
                   return (
                     <tr key={index}>
                       <td>{d}</td>
+                      <td></td>
                       <td>
-                        <img
-                          src={pdf}
-                          className={styles.imgicon}
-                          alt="pdffile"
-                        ></img>
+                        <Button
+                          variant="outline-primary"
+                          onClick={() => viewpdf("Summary/" + d, d)}
+                        >
+                          <img
+                            src={eye}
+                            className={styles.imgicon}
+                            alt="pdfreadfile"
+                            aria-disabled="true"
+                          ></img>
+                        </Button>
+                        <Button
+                          variant="outline-primary"
+                          onClick={() => downloadpdf("Summary/" + d, d)}
+                        >
+                          <img
+                            src={pdf}
+                            className={styles.imgicon}
+                            alt="pdffile"
+                            aria-disabled="true"
+                          ></img>
+                        </Button>
                       </td>
                     </tr>
                   );
@@ -184,11 +225,10 @@ function Listfiles(props) {
           </div>
         </div>
 
-        {/* <div> */}
-        {/* {file} && <Pdfviewer file={file}></Pdfviewer> */}
-        {/* <Pdfviewer file={file}></Pdfviewer> */}
-        {/* <Pdfviewer file="../../java/files/prod/sample.pdf"></Pdfviewer> */}
-        {/* </div> */}
+        {/* <div>
+          
+          <Pdfviewer file={downloadpdf}></Pdfviewer>
+        </div> */}
       </>
     );
   } else {
