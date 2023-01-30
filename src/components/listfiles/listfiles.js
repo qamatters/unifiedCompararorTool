@@ -96,7 +96,7 @@ function Listfiles(props) {
                         >
                           <img
                             src={eye}
-                            className={styles.imgicon}
+                            className={styles.eyeimgicon}
                             alt="pdfreadfile"
                             aria-disabled="true"
                           ></img>
@@ -147,7 +147,7 @@ function Listfiles(props) {
                         >
                           <img
                             src={eye}
-                            className={styles.imgicon}
+                            className={styles.eyeimgicon}
                             alt="pdfreadfile"
                             aria-disabled="true"
                           ></img>
@@ -197,7 +197,7 @@ function Listfiles(props) {
                         >
                           <img
                             src={eye}
-                            className={styles.imgicon}
+                            className={styles.eyeimgicon}
                             alt="pdfreadfile"
                             aria-disabled="true"
                           ></img>

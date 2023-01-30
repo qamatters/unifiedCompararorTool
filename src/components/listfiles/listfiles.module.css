@@ -31,7 +31,11 @@ thead {
   height: 25px;
   background-size: cover;
 }
-
+.eyeimgicon {
+  width: 30px;
+  height: 25px;
+  background-size: cover;
+}
 header h1 {
   font-size: 24px;
   font-weight: 500;
