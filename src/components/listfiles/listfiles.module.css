@@ -9,20 +9,7 @@
 }
 
 .divTable {
-  /* background-color: #ff505361; */
-  /* background-color: rgb(0 0 0 / 22%); */
-  /* background-color: #ffdee9;
-  background-image: linear-gradient(0deg, #ffdee9 0%, #b5fffc 100%); */
-  /* background-color: #a9c9ff; */
-  /* background-image: linear-gradient(180deg, #a9c9ff 0%, #ffbbec 100%); */
-  background-color: #d9afd9;
-  background-image: linear-gradient(
-    0deg,
-    #d9afd9 0%,
-    #97d9e1 50%,
-    #10c7ba 100%
-  );
-
+  background-color: #f6f6f69a;
   width: 32.03125%;
   float: none;
   display: table-cell;
@@ -42,6 +29,7 @@ thead {
 .imgicon {
   width: 25px;
   height: 25px;
+  background-size: cover;
 }
 
 header h1 {
@@ -49,7 +37,7 @@ header h1 {
   font-weight: 500;
   /* color: #553c9a; */
   text-align: center;
-  background-image: linear-gradient(to left, #553c9a, #b393d3);
+  background-image: linear-gradient(to left, #110113, #4f3867);
   color: transparent;
   background-clip: text;
   -webkit-background-clip: text;
@@ -57,4 +45,38 @@ header h1 {
 .tab-pane {
   border: double 2px blue;
   background-color: black;
+}
+/* tbody {
+  overflow-x: auto !important;
+  overflow-y: auto !important;
+  height: 1000px !important;
+} */
+
+table {
+  border-collapse: collapse;
+  overflow-x: scroll;
+}
+thead {
+  background-color: #efefef;
+}
+thead,
+tbody {
+  display: block;
+}
+tbody {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 70vh;
+}
+td,
+th {
+  min-width: 130px;
+  height: 25px;
+  border: dashed 1px lightblue;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 145px;
+}
+.container {
+  width: 100%;
 }

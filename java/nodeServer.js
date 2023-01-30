@@ -79,6 +79,9 @@ app.get("/api/listfiles", (req, res, next) => {
   }
 });
 
+/**
+ * This is to compare the files in the stage and prod folder.
+ */
 app.get("/api/compare", (req, res, next) => {
   console.log(" Comparing ....");
 
@@ -100,7 +103,11 @@ app.get("/api/compare", (req, res, next) => {
     }
   );
 });
-
+app.get("/api/getPdf", function (req, res) {
+  console.log("./files/" + req.query.path);
+  //res.download("./files/Summary/sample.pdf");
+  res.download("./files/" + req.query.path);
+});
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     console.log("storage *******req.", req.query.id);

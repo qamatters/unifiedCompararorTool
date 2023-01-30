@@ -1,9 +1,9 @@
 .mainbackground {
-  background-image: radial-gradient(
+  /*  background-image: radial-gradient(
     circle farthest-corner at 5.3% 17.2%,
     rgba(255, 208, 253, 1) 0%,
     rgba(255, 237, 216, 1) 90%
-  );
+  ); */
   background-size: cover;
   height: 100%;
 }
@@ -37,12 +37,19 @@
   background-size: cover;
   height: 100%;
 
-  /* background-color: #464646; */
-  background-color: #d9afd9;
+  /* background-color: #ffffff; */
+  /* background-color: #d9afd9;
   background-image: linear-gradient(
     0deg,
     #d9afd9 0%,
     #97d9e1 50%,
     #10c7ba 100%
-  );
+  ); */
+  /*  background-color: #de51fd;
+  background-image: linear-gradient(
+    180deg,
+    #de51fd 0%,
+    #fdfdfd 62%,
+    #ffffff 100%
+  ); */
 }
