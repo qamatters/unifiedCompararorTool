@@ -5,16 +5,12 @@ import axios from "axios";
 import Table from "react-bootstrap/Table";
 import pdf from "../../images/pdfdownload.png";
 import folderfile from "../../images/folderfile.gif";
-import eye from "../../images/eye.jpg";
+import eye from "../../images/eye.png";
 import { saveAs } from "file-saver";
 import { Button } from "react-bootstrap";
-import Pdfviewer from "../pdfviewer/pdfviewer";
+//import Pdfviewer from "../pdfviewer/pdfviewer";
 
 function Listfiles(props) {
-  // const [stageFilenames, setStageFilenames] = useState([]);
-  // const [prodfilenames, setProdfilenames] = useState([]);
-  // const [summaryfilenames, setSummaryfilenames] = useState([]);
-
   const stageFilenames = props.stageFilenames;
   const prodfilenames = props.prodfilenames;
   const summaryfilenames = props.summaryfilenames;
@@ -67,7 +63,8 @@ function Listfiles(props) {
           {props.newSummaryFile.join(",")}
         </span> */}
         <div className={styles.Listfiles} data-testid="Listfiles">
-          <div className={styles.divTable} id="stBox">
+          {/* <div className={styles.divTable} id="stBox"> */}
+          <div className="flex-container" id="stBox">
             <Table size="sm" responsive>
               <thead>
                 <tr>
