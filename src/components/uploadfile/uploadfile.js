@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styles from "./uploadfile.module.css";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -10,38 +10,70 @@ import checkdif from "../../images/DiffImage.gif";
 import success from "../../images/success.png";
 import checkcorrect from "../../images/checkcorrect.gif";
 
-import docscan1 from "../../images/docscan1.gif";
+//import docscan1 from "../../images/docscan1.gif";
 import Carousel from "react-bootstrap/Carousel";
 import Toastmessage from "../toastmessage/toastmessage";
 
 //import Multiplefileupload from "../multiplefileupload/multiplefileupload";
 
 const Uploadfile = (props) => {
+  const ref1 = useRef();
+  const ref2 = useRef();
+  const ref3 = useRef();
+
   const [loading, setLoading] = useState(false);
   const [showsuccess, setShowSuccess] = useState(false);
   const [showalert1, setShowalert1] = useState(false);
   const [showalert2, setShowalert2] = useState(false);
   const [showalert3, setShowalert3] = useState(false);
   const [showerror, setShowerror] = useState(false);
-  const [files, setFiles] = useState([]);
+  const [stagefiles, setStageFiles] = useState([]);
+  const [prodfiles, setProdFiles] = useState([]);
+  const [ignoredTitlesfiles, setIgnoredTitlesFiles] = useState([]);
+  const [isFileUploaded, setIsfileuploaded] = useState(true);
   let toastmessage =
-    props.newSummaryFile.length > 1
+    props.newSummaryFile.length >= 1
       ? "There are new Files created in Summary folder. View the files-PDFCOMPARATOR/java/files/Summary folder."
       : "There are no differences between the uploaded files.. View the files-PDFCOMPARATOR/java/files/Summary folder.";
+  /**
+   * Important- color of the toast message is dependent on the Error word at the begining. So error message string should start with Error word.
+   *  */
   let errormessage =
     "Error ! Something went wrong.Please contact application admin";
-  const onChange = (e) => {
+
+  const FILENOTUPLOADEDMESSAGE =
+    "Error ! Alert you have selected files that are not uploaded. Click on Upload button to upload the selected files";
+
+  const onChange = (e, path) => {
     console.log(e.target.files);
-    setFiles(e.target.files);
+    //setFiles(e.target.files);
+    if (path === "Stage") {
+      setStageFiles(e.target.files);
+    } else if (path === "Prod") {
+      setProdFiles(e.target.files);
+    } else if (path === "IgnoredTitles") {
+      setIgnoredTitlesFiles(e.target.files);
+    }
   };
   const onSubmit = async (e, path) => {
     e.preventDefault();
     console.log("path====", path);
+    console.log(stagefiles, prodfiles, ignoredTitlesfiles);
     const formData = new FormData();
     // formData.append("destinationpath", "Prod");
-    Object.values(files).forEach((file) => {
-      formData.append("uploadImages", file);
-    });
+    if (path === "Stage") {
+      Object.values(stagefiles).forEach((file) => {
+        formData.append("uploadImages", file);
+      });
+    } else if (path === "Prod") {
+      Object.values(prodfiles).forEach((file) => {
+        formData.append("uploadImages", file);
+      });
+    } else if (path === "IgnoredTitles") {
+      Object.values(ignoredTitlesfiles).forEach((file) => {
+        formData.append("uploadImages", file);
+      });
+    }
 
     try {
       const res = await axios.post(
@@ -56,21 +88,28 @@ const Uploadfile = (props) => {
       );
       console.log(res);
       props.listFileIndir();
-      if (path === "Prod") {
-        setShowalert2(true);
-        setShowerror(false);
-        setTimeout(() => {
-          setShowalert2(false);
-        }, 5000);
-      } else if (path === "Stage") {
+      if (path === "Stage") {
         setShowalert1(true);
         setShowerror(false);
+        setStageFiles([]);
+        ref1.current.value = "";
         setTimeout(() => {
           setShowalert1(false);
+        }, 5000);
+      } else if (path === "Prod") {
+        setShowalert2(true);
+
+        setShowerror(false);
+        setProdFiles([]);
+        ref2.current.value = "";
+        setTimeout(() => {
+          setShowalert2(false);
         }, 5000);
       } else if (path === "IgnoredTitles") {
         setShowalert3(true);
         setShowerror(false);
+        setIgnoredTitlesFiles([]);
+        ref3.current.value = "";
         setTimeout(() => {
           setShowalert3(false);
         }, 5000);
@@ -83,6 +122,13 @@ const Uploadfile = (props) => {
 
   const generateCompareFile = () => {
     console.log("compare call");
+    /* if (
+      stagefiles.length > 0 ||
+      prodfiles.length > 0 ||
+      ignoredTitlesfiles.length > 0
+    ) {
+      setIsfileuploaded(false);
+    } else { */
     setLoading(true);
     axios
       .get("http://localhost:8080/api/compare")
@@ -103,6 +149,7 @@ const Uploadfile = (props) => {
         setLoading(false);
         setShowerror(true);
       });
+    //}
   };
 
   return (
@@ -122,12 +169,14 @@ const Uploadfile = (props) => {
                 placeholder="Select file"
                 multiple
                 accept=".pdf"
-                onChange={onChange}
+                onChange={(event) => onChange(event, "Stage")}
+                ref={ref1}
               />
               <Button
                 variant="primary"
                 size="sm"
                 type="submit"
+                disabled={stagefiles && stagefiles.length > 0 ? false : true}
                 // onClick={() => onFileUpload1()}
               >
                 Upload Doc1
@@ -161,12 +210,14 @@ const Uploadfile = (props) => {
                 placeholder="Select file"
                 multiple
                 accept=".pdf"
-                onChange={onChange}
+                onChange={(event) => onChange(event, "Prod")}
+                ref={ref2}
               />
               <Button
                 variant="primary"
                 size="sm"
                 type="submit"
+                disabled={prodfiles && prodfiles.length > 0 ? false : true}
                 //onClick={() => onFileUpload2()}
               >
                 Upload Doc2
@@ -201,12 +252,18 @@ const Uploadfile = (props) => {
                 placeholder="Select file"
                 multiple
                 accept=".txt"
-                onChange={onChange}
+                onChange={(event) => onChange(event, "IgnoredTitles")}
+                ref={ref3}
               />
               <Button
                 variant="primary"
                 size="sm"
                 type="submit"
+                disabled={
+                  ignoredTitlesfiles && ignoredTitlesfiles.length > 0
+                    ? false
+                    : true
+                }
                 //onClick={() => onFileUpload2()}
               >
                 Upload Doc3
@@ -285,6 +342,10 @@ const Uploadfile = (props) => {
         </>
       ) : null}
       {showerror ? <Toastmessage message={errormessage}></Toastmessage> : null};
+      {isFileUploaded ? null : (
+        <Toastmessage message={FILENOTUPLOADEDMESSAGE}></Toastmessage>
+      )}
+      ;
     </>
   );
 };
