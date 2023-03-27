@@ -74,15 +74,14 @@ const Uploadfile = (props) => {
         formData.append("uploadImages", file);
       });
     }
-
+    console.log("path is :" + path)
     try {
       const res = await axios.post(
-        "http://localhost:8080/api/upload?id=" + path,
-        formData,
-
+        "http://localhost:8080/api/upload?id=" + path,formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
+            "Content-Encoding": "gzip"
           },
         }
       );
@@ -168,7 +167,7 @@ const Uploadfile = (props) => {
                 size="sm"
                 placeholder="Select file"
                 multiple
-                accept=".pdf"
+                accept=".pdf,.xlsx"
                 onChange={(event) => onChange(event, "Stage")}
                 ref={ref1}
               />
@@ -192,7 +191,7 @@ const Uploadfile = (props) => {
               ) : null}
             </InputGroup>
             <Form.Text className="text-muted">
-              <strong>Upload pdf file to be added to Stage folder.</strong>
+              <strong>Upload pdf and xlsx file to be added to Prod folder</strong>
             </Form.Text>
           </Form.Group>
         </Form>
@@ -209,7 +208,7 @@ const Uploadfile = (props) => {
                 size="sm"
                 placeholder="Select file"
                 multiple
-                accept=".pdf"
+                accept=".pdf,.xlsx"
                 onChange={(event) => onChange(event, "Prod")}
                 ref={ref2}
               />
@@ -233,7 +232,7 @@ const Uploadfile = (props) => {
               ) : null}
             </InputGroup>
             <Form.Text className="text-muted">
-              <strong>Upload pdf file to be added to Prod folder.</strong>
+              <strong>Upload pdf and xlsx file to be added to Prod folder.</strong>
             </Form.Text>
           </Form.Group>
         </Form>
@@ -281,7 +280,7 @@ const Uploadfile = (props) => {
             <Form.Text className="text-muted">
               <strong>
                 Upload text file with Titles to be ignored.
-                <b>Note:File name should be IgnoredTitles.txt only.</b>
+                <b>Note:File name should be IgnoredTitles.txt only. This is for pdf comparison.</b>
               </strong>
             </Form.Text>
           </Form.Group>

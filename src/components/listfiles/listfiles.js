@@ -3,7 +3,7 @@ import React from "react";
 import styles from "./listfiles.module.css";
 import axios from "axios";
 import Table from "react-bootstrap/Table";
-import pdf from "../../images/pdfdownload.png";
+import pdf from "../../images/fileDownload.jpg";
 import folderfile from "../../images/folderfile.gif";
 import eye from "../../images/eye.png";
 import { saveAs } from "file-saver";
@@ -24,13 +24,21 @@ function Listfiles(props) {
     //window.open(fileURL);
   }
   async function viewpdf(filepath, filename) {
+    console.log("file name is :" + filename);
     const { data } = await getTicketsPdf(filepath);
-    const blob = new Blob([data], { type: "application/pdf" });
-    //saveAs(blob, filename);
-    //Build a URL from the file
-    const fileURL = URL.createObjectURL(blob);
-    //Open the URL on new Window
+    if(filename.includes(".xlsx")) {
+      viewExcel(data);
+    } else {
+    const blob1 = new Blob([data], { type: "application/pdf"});
+    const fileURL = URL.createObjectURL(blob1);
     window.open(fileURL);
+    }  
+  }
+
+  async function viewExcel (data) {
+    const blob = new Blob([data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;"});
+    const fileURL = URL.createObjectURL(blob);
+  window.open(fileURL);
   }
 
   async function getTicketsPdf(filepath) {

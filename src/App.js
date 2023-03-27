@@ -56,7 +56,7 @@ function App() {
   useEffect(() => listFileIndir(), []);
   return (
     <div className="mainbackground">
-      <h1 className="title">Pdf Comparator</h1>
+      <h1 className="title">Data Comparer Tool</h1>
       <Informationcard></Informationcard>
       {/* <div className="comparebutton">
           <Comparefile></Comparefile>
@@ -81,9 +81,8 @@ function App() {
             newSummaryFile={newSummaryFile}
           ></Listfiles>
         </Tab>
-        {/* <Tab eventKey="compare" title="Compare Files">
-            <Comparefile></Comparefile>
-          </Tab> */}
+        <Tab eventKey="jsonCpmpare" title="JSONS Comparator">
+        </Tab>
       </Tabs>
       {showerror ? <Toastmessage message={errormessage}></Toastmessage> : null};
     </div>

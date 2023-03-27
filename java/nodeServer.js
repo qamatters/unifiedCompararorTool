@@ -14,7 +14,7 @@ app.use(express.json());
 // serving front end build files
 app.use(express.static(__dirname + "/../build"));
 
-var whitelist = ["http://localhost:3000"]; //white list consumers
+var whitelist = ["http://localhost:3000","http://localhost:3001" ]; //white list consumers
 app.use(
   cors({
     origin: function (origin, callback) {
@@ -30,16 +30,20 @@ app.use(
     },
   })
 );
-var bodyParser = require("body-parser");
-app.use(bodyParser.json({ limit: "5mb" }));
-app.use(bodyParser.json()); // to support JSON-encoded bodies
-app.use(
-  bodyParser.urlencoded({
-    // to support URL-encoded bodies
-    extended: true,
-    limit: "5mb",
-  })
-);
+// var bodyParser = require("body-parser");
+// app.use(bodyParser.json({ limit: "50mb" }));
+// // app.use(bodyParser.json()); // to support JSON-encoded bodies
+// app.use(
+//   bodyParser.urlencoded({
+//     // to support URL-encoded bodies
+//     extended: true,
+//     parameterLimit: 100000,
+//     limit: "50mb",
+//   })
+// );
+
+app.use(express.json({limit: '50mb'}));
+app.use(express.urlencoded({limit: '50mb'}));
 
 app.get("/api/listfiles", (req, res, next) => {
   console.log("inside the listfiles");
@@ -103,11 +107,15 @@ app.get("/api/compare", (req, res, next) => {
     }
   );
 });
+
+
 app.get("/api/getPdf", function (req, res) {
   console.log("./files/" + req.query.path);
   //res.download("./files/Summary/sample.pdf");
   res.download("./files/" + req.query.path);
 });
+
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     console.log("storage *******req.", req.query.id);
@@ -134,12 +142,12 @@ const storage = multer.diskStorage({
 const multi_upload = multer({
   storage,
   fileFilter: (req, file, cb) => {
-    if (file.mimetype == "application/pdf" || file.mimetype == "text/plain") {
+    if (file.mimetype == "application/pdf" || file.mimetype == "text/plain"|| file.mimetype == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ) {
       console.log("multi_upload fileFilter == req.files,file", req.files, file);
       cb(null, true);
     } else {
       cb(null, false);
-      const err = new Error("Only .pdf/.txt docs are supported!");
+      const err = new Error("Only .pdf/.txt/.xlsx docs are supported!");
       err.name = "ExtensionError";
       return cb(err);
     }
@@ -148,7 +156,7 @@ const multi_upload = multer({
 
 app.post("/api/upload", (req, res) => {
   multi_upload(req, res, function (err) {
-    // console.log("multi_upload == res ", res);
+    //  console.log("multi_upload == res ", res);
     //multer error
     if (err instanceof multer.MulterError) {
       console.log(err);
