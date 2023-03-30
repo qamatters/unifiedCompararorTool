@@ -19,13 +19,20 @@
   color: white;
   text-align: center;
 }
+
+.css-o1u8iu-content-text {
+  color: #000000;
+}
+
 .comparebutton {
   float: right;
   margin-right: 100px;
 }
+
 .tabsstyles {
   max-height: 100%;
 }
+
 .background {
   /* background-image: url(./images/background.jpg); */
 
@@ -37,7 +44,7 @@
 
   background-size: cover;
   height: 100%;
-  
+
 
   /* background-color: #ffffff; */
   /* background-color: #d9afd9;
@@ -54,4 +61,53 @@
     #fdfdfd 62%,
     #ffffff 100%
   ); */
+}
+
+.viewer {
+  margin-top: 1rem;
+  margin-bottom: 0 !important;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  height: 100vh;
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+.compare {
+  text-align: center;
+}
+
+.compare-button {
+ margin-left: 8rem;
+}
+
+.large-area {
+  height: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  color: #aaaaaa;
+  background: #444444;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+  resize: none;
+  font-family: monospace;
+  transition: background 0.25s, color 0.25s;
+}
+
+.longInput {
+  flex: 1;
+}
+
+.large-area:hover,
+.large-area:focus {
+  background: #4a4a4a;
+}
+
+.large-area:focus {
+  color: #eeeeee;
 }

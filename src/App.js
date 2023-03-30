@@ -7,6 +7,7 @@ import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import Informationcard from "./components/informationcard/informationcard";
 import Toastmessage from "./components/toastmessage/toastmessage";
+import JsonComparator from "./components/jsoncomparator/jsoncomparator";
 //import Multiplefileupload from "./components/multiplefileupload/multiplefileupload";
 //import Comparefile from "./components/comparefile/comparefile";
 //class App extends Component {
@@ -81,10 +82,11 @@ function App() {
             newSummaryFile={newSummaryFile}
           ></Listfiles>
         </Tab>
-        <Tab eventKey="jsonCpmpare" title="JSONS Comparator">
+        <Tab eventKey="jsonCpmpare" title="JSON Comparator">
+          <JsonComparator />
         </Tab>
       </Tabs>
-      {showerror ? <Toastmessage message={errormessage}></Toastmessage> : null};
+      {showerror ? <Toastmessage message={errormessage}></Toastmessage> : null}
     </div>
   );
 }
