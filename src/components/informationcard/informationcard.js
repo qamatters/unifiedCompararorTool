@@ -17,9 +17,10 @@ function Informationcard() {
         placement="bottom"
         overlay={
           <Popover id={`popover-positioned-bottom`}>
-            <Popover.Header as="h3">Steps to compare files</Popover.Header>
+            <Popover.Header as="h3">Steps to compare files and compare JSON</Popover.Header>
             <Popover.Body>
               <Alert key="info" variant="info">
+                <h6> Comaring Files:</h6>
                 1. Select Files to be uploaded
                 <br />
                 2. Click on Upload doc(x) button to upload the files.
@@ -53,6 +54,14 @@ function Informationcard() {
                     onHide={() => setModalShow(false)}
                   />
                 </Alert>
+                <h6> Comaring JSON:</h6>
+                1. Enter JSON in the textarea box.
+                <br />
+                2. Click on compare button to compare them.
+                <br />
+                3. If the JSON is invalid a error message would be shown at the top.
+                <br />
+                4. Validate the JSON using Notepad++ or other formatters.
               </Alert>
             </Popover.Body>
           </Popover>
