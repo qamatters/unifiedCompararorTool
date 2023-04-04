@@ -66,7 +66,7 @@ function JsonComparator() {
 
     return (
         <>
-            <div className="compare-container" data-testid="CompareJsonButton">
+            <div className="button-container" data-testid="CompareJsonButton">
                 <form>
                     <Form.Group controlId="compare" className="controls">
                         <Button variant="primary" size="sm" onClick={handleClick}>
@@ -79,7 +79,7 @@ function JsonComparator() {
                 <Diff oldData={oldData} newData={newData} compare={compare} /> :
                 <>
                     {
-                        <div className="header-container">
+                        <div className="compare-container">
                             {(errorMsg.firstJson || errorMsg.secondJson) &&
                                 <>
                                     <div className={errorMsg.firstJson ? "error" : ""}>
@@ -91,7 +91,7 @@ function JsonComparator() {
                                 </>}
                         </div>
                     }
-                    <div className="container">
+                    <div className="compare-container textarea-height">
                         <textarea
                             className="large-area"
                             placeholder="Enter JSON to compare"
@@ -107,18 +107,18 @@ function JsonComparator() {
                         </textarea>
 
                     </div>
-                    <div className="footer-container">
+                    <div className="compare-container pb-3">
                         <div className="controls">
                             <button
                                 onClick={() => handleFormatClickForRequest("first")}
-                                className="controls__button controls__button--format">
+                                className="controls__button">
                                 Format Your Request
                             </button>
                         </div>
                         <div className="controls">
                             <button
                                 onClick={handleFormatClickForRequest}
-                                className="controls__button controls__button--format">
+                                className="controls__button">
                                 Format Your Request
                             </button>
                         </div>
